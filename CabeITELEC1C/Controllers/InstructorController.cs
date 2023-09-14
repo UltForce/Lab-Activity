@@ -50,6 +50,17 @@ namespace CabeITELEC1C.Controllers
 
             return NotFound();
         }
+        [HttpGet]
+        public IActionResult AddInstructor()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddInstructor(Instructor AddInstructor)
+        {
+            InstructorList.Add(AddInstructor);
+            return View("Index", InstructorList);
+        }
     }
 }
 

@@ -24,7 +24,7 @@
     */
     @model IEnumerable<Instructor>;
 
-    <div>Instructor List</div>
+    <h1>Instructor List</h1>
 
 
     <table class="table table-dark">
@@ -54,6 +54,7 @@
             </tr>
         }
     </table>
+    <button type="submit" class="btn btn-primary"><a class="text-light" asp-area="" asp-controller="Instructor" asp-action="AddInstructor">Add Instructor</a></button>
 }
 
 

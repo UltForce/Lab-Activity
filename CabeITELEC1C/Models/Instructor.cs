@@ -18,5 +18,6 @@
         public DateTime HiringDate { get; set; }
 
         public Rank Rank { get; set; }
+
     }
 }
