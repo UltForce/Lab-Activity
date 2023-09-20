@@ -1,11 +1,11 @@
 ﻿
 @{
     @model Student;
-    <h1>Add Student</h1>
-    <form asp-action="AddStudent" asp-asp-controller="Student" method="post">
+    <h1>Update Student</h1>
+    <form asp-action="UpdateStudent" asp-controller="Student" method="post">
         <div class="form-group">
-            <label asp-for="Id">Id</label>
-            <input class="form-control" asp-for="Id" placeholder="Enter Id">
+            <label asp-for="Id" hidden>Id</label>
+            <input class="form-control" asp-for="Id" placeholder="Enter Id" hidden>
         </div>
         <div class="form-group">
             <label asp-for="FirstName">First Name</label>
@@ -20,8 +20,8 @@
             <select asp-for="Course" asp-items="@Html.GetEnumSelectList(typeof(Course))" class="form-control"></select>
         </div>
         <div class="form-group">
-        <label asp-for="AdmissionDate">Admission Date</label>
-        <input asp-for="AdmissionDate" class="form-control">
+            <label asp-for="AdmissionDate">Admission Date</label>
+            <input asp-for="AdmissionDate" class="form-control">
         </div>
         <div class="form-group">
             <label asp-for="Email">Email Address</label>
@@ -34,5 +34,6 @@
         <br>
         <button type="button" onclick="history.back()" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Submit</button>
+
     </form>
 }

@@ -1,11 +1,10 @@
-﻿
-@{
+﻿@{
     @model Instructor;
-    <h1>Add Instructor</h1>
-    <form asp-action="AddInstructor" asp-asp-controller="Instructor" method="post">
+    <h1>Update Instructor</h1>
+    <form asp-action="UpdateInstructor" asp-asp-controller="Instructor" method="post">
         <div class="form-group">
-            <label asp-for="Id">Id</label>
-            <input class="form-control" asp-for="Id" placeholder="Enter Id">
+            <label asp-for="Id" hidden>Id</label>
+            <input class="form-control" asp-for="Id" placeholder="Enter Id" hidden>
         </div>
         <div class="form-group">
             <label asp-for="FirstName">First Name</label>
@@ -28,8 +27,8 @@
         </div>
         <div class="form-group">
             <input type="radio" asp-for="IsTenured" value="true" checked>
-            <label  asp-for="IsTenured">
-               Yes
+            <label asp-for="IsTenured">
+                Yes
             </label>
         </div>
         <div class="form-group">
@@ -37,7 +36,7 @@
             <label asp-for="IsTenured">
                 No
             </label>
-            </div>
+        </div>
         <br>
         <button type="button" onclick="history.back()" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Submit</button>

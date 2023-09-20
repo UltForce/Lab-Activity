@@ -1,27 +1,5 @@
 ﻿
 @{
-    /*
-    <h1> Student Details</h1>
-        <table>
-            <tr>
-            <td> Name</td>
-            <td> @ViewBag.Student.StudentName</td>
-        </tr>
-            <tr>
-            <td> Date Enrolled</td>
-            <td> @ViewBag.Student.DateEnrolled</td>
-        </tr>
-            <tr>
-            <td> Course</td>
-            <td> @ViewBag.Student.Course</td>
-        </tr>
-            <tr>
-            <td> Email</td>
-            <td> @ViewBag.Student.StudentEmail</td>
-    </tr>
-            </table>
-    */
-
     @model IEnumerable<Student>;
 
     <h1>Student List</h1>
@@ -29,7 +7,7 @@
     <table class="table table-dark">
     
         <tr>
-            <th colspan="6">Student</th>
+            <th colspan="7">Student</th>
         </tr>
 
         <tr>
@@ -39,7 +17,7 @@
             <td>Email</td>
             <td>GPA</td>
             <td>Details</td>
-
+            <td>Update</td>
 
         </tr>
         @foreach (var student in Model)
@@ -51,7 +29,7 @@
                 <td>@student.Email</td>
                 <td>@student.GPA</td>
                 <td><a asp-action="ShowDetail" asp-route-id="@student.Id">Show Details</a></td>
-
+                <td><a asp-action="UpdateStudent" asp-route-id="@student.Id">Update Student</a></td>
             </tr>
         }
     </table>
