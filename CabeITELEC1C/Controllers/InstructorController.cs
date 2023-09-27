@@ -88,6 +88,28 @@ namespace CabeITELEC1C.Controllers
             }
             return View("Index", InstructorList);
         }
+
+        [HttpGet]
+        public IActionResult DeleteInstructor(int id)
+        {
+            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+
+            if (instructor != null)//was an student found?
+                return View(instructor);
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteInstructor(Instructor instructorChanges)
+        {
+            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == instructorChanges.Id);
+            if (instructor != null)
+            {
+                InstructorList.Remove(instructor);
+            }
+            return View("Index", InstructorList);
+        }
     }
 }
 

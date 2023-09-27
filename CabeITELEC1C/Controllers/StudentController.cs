@@ -88,5 +88,26 @@ namespace CabeITELEC1C.Controllers
             return View("Index", StudentList);
         }
 
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            Student? student = StudentList.FirstOrDefault(st => st.Id == id);
+
+            if (student != null)//was an student found?
+                return View(student);
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Student studentChanges)
+        {
+            Student? student = StudentList.FirstOrDefault(st => st.Id == studentChanges.Id);
+            if (student != null)
+            {
+                StudentList.Remove(student);
+            }
+            return View("Index", StudentList);
+        }
     }
 }
