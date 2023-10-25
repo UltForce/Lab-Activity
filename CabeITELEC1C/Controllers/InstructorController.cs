@@ -1,10 +1,18 @@
-﻿using CabeITELEC1C.Models;
+﻿using CabeITELEC1C.Data;
+using CabeITELEC1C.Models;
+//using CabeITELEC1C.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CabeITELEC1C.Controllers
 {
     public class InstructorController : Controller
     {
+        private readonly AppDbContext _dbData;
+
+        public InstructorController(AppDbContext dbData)
+        {
+            _dbData = dbData;
+        }
         /*
         List<Instructor> InstructorList = new List<Instructor>()
         {
@@ -25,6 +33,7 @@ namespace CabeITELEC1C.Controllers
         },
         };
         */
+        /*
         List<Instructor> InstructorList = new List<Instructor>
             {
                 new Instructor()
@@ -36,14 +45,15 @@ namespace CabeITELEC1C.Controllers
                     Id= 2,FirstName = "Zyx",LastName = "Montano", IsTenured = false, HiringDate = DateTime.Parse("2022-08-07"), Rank = Rank.Instructor
                 },
             };
+        */
         public IActionResult Index()
         {
-            return View(InstructorList);
+            return View(_dbData.Instructors);
         }
         public IActionResult ShowDetails(int id)
         {
             //Search for the student whose id matches the given id
-            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+            Instructor? instructor = _dbData.Instructors.FirstOrDefault(st => st.Id == id);
 
             if (instructor != null)//was an student found?
                 return View(instructor);
@@ -58,14 +68,15 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult AddInstructor(Instructor AddInstructor)
         {
-            InstructorList.Add(AddInstructor);
-            return View("Index", InstructorList);
+            _dbData.Instructors.Add(AddInstructor);
+            _dbData.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult UpdateInstructor(int id)
         {
-            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+            Instructor? instructor = _dbData.Instructors.FirstOrDefault(st => st.Id == id);
 
             if (instructor != null)
                 return View(instructor);
@@ -76,7 +87,7 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult UpdateInstructor(Instructor instructorChanges)
         {
-            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == instructorChanges.Id);
+            Instructor? instructor = _dbData.Instructors.FirstOrDefault(st => st.Id == instructorChanges.Id);
             if (instructor != null)
             {
                 instructor.FirstName = instructorChanges.FirstName;
@@ -84,15 +95,15 @@ namespace CabeITELEC1C.Controllers
                 instructor.IsTenured = instructorChanges.IsTenured;
                 instructor.HiringDate = instructorChanges.HiringDate;
                 instructor.Rank= instructorChanges.Rank;
-               
+                _dbData.SaveChanges();
             }
-            return View("Index", InstructorList);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult DeleteInstructor(int id)
         {
-            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+            Instructor? instructor = _dbData.Instructors.FirstOrDefault(st => st.Id == id);
 
             if (instructor != null)//was an student found?
                 return View(instructor);
@@ -103,12 +114,13 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult DeleteInstructor(Instructor instructorChanges)
         {
-            Instructor? instructor = InstructorList.FirstOrDefault(st => st.Id == instructorChanges.Id);
+            Instructor? instructor = _dbData.Instructors.FirstOrDefault(st => st.Id == instructorChanges.Id);
             if (instructor != null)
             {
-                InstructorList.Remove(instructor);
+                _dbData.Instructors.Remove(instructor);
+                _dbData.SaveChanges();
             }
-            return View("Index", InstructorList);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,11 +1,20 @@
-﻿using CabeITELEC1C.Models;
+﻿using CabeITELEC1C.Data;
+using CabeITELEC1C.Models;
+//using CabeITELEC1C.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace CabeITELEC1C.Controllers
 {
+    
     public class StudentController : Controller
     {
+        private readonly AppDbContext _dbData;
+
+        public StudentController(AppDbContext dbData) {
+            _dbData = dbData;
+        }
+        /*
         List<Student> StudentList = new List<Student>
             {
                 new Student()
@@ -36,12 +45,12 @@ namespace CabeITELEC1C.Controllers
         */
         public IActionResult Index()
         {
-            return View(StudentList);
+            return View(_dbData.Students);
         }
         public IActionResult ShowDetail(int id)
         {
             //Search for the student whose id matches the given id
-            Student? student = StudentList.FirstOrDefault(st => st.Id == id);
+            Student? student = _dbData.Students.FirstOrDefault(st => st.Id == id);
 
             if (student != null)//was an student found?
                 return View(student);
@@ -57,14 +66,15 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult AddStudent(Student AddStudent)
         {
-            StudentList.Add(AddStudent);
-            return View("Index", StudentList);
+            _dbData.Students.Add(AddStudent);
+            _dbData.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult UpdateStudent(int id)
         {
-            Student? student = StudentList.FirstOrDefault(st => st.Id == id);
+            Student? student = _dbData.Students.FirstOrDefault(st => st.Id == id);
 
             if (student != null)//was an student found?
                 return View(student);
@@ -75,7 +85,7 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult UpdateStudent(Student studentChanges)
         {
-            Student? student = StudentList.FirstOrDefault(st => st.Id == studentChanges.Id);
+            Student? student = _dbData.Students.FirstOrDefault(st => st.Id == studentChanges.Id);
             if (student != null)
             {
                 student.FirstName = studentChanges.FirstName;
@@ -84,14 +94,15 @@ namespace CabeITELEC1C.Controllers
                 student.Course = studentChanges.Course;
                 student.GPA = studentChanges.GPA;
                 student.AdmissionDate = studentChanges.AdmissionDate;
+                _dbData.SaveChanges();
             }
-            return View("Index", StudentList);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Student? student = StudentList.FirstOrDefault(st => st.Id == id);
+            Student? student = _dbData.Students.FirstOrDefault(st => st.Id == id);
 
             if (student != null)//was an student found?
                 return View(student);
@@ -102,12 +113,13 @@ namespace CabeITELEC1C.Controllers
         [HttpPost]
         public IActionResult Delete(Student studentChanges)
         {
-            Student? student = StudentList.FirstOrDefault(st => st.Id == studentChanges.Id);
+            Student? student = _dbData.Students.FirstOrDefault(st => st.Id == studentChanges.Id);
             if (student != null)
             {
-                StudentList.Remove(student);
+                _dbData.Students.Remove(student);
+                _dbData.SaveChanges();
             }
-            return View("Index", StudentList);
+            return RedirectToAction("Index");
         }
     }
 }
